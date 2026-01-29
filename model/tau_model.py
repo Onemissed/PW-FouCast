@@ -3,11 +3,7 @@ from torch import nn
 from module.simvp_modules import ConvSC, TAUSubBlock
 
 # -----------------------------------------------------------------------------
-<<<<<<< HEAD
 # Paper: C. Tan, Z. Gao, L. Wu, Y. Xu, J. Xia, S. Li, and S. Z. Li (2023)
-=======
-# Paper: Tan, C., Gao, Z., Wu, L., Xu, Y., Xia, J., Li, S., Li, S.Z. (2023)
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 #        Temporal Attention Unit: Towards Efficient Spatiotemporal Predictive Learning
 #        https://openaccess.thecvf.com/content/CVPR2023/papers/Tan_Temporal_Attention_Unit_Towards_Efficient_Spatiotemporal_Predictive_Learning_CVPR_2023_paper.pdf
 # Source implementation: https://github.com/chengtan9907/OpenSTL/tree/OpenSTLv0.3.0

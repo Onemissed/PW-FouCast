@@ -13,11 +13,7 @@ from util.earthformer_utils import (get_activation, get_norm_layer, _generalize_
                                     apply_initialization, round_to)
 
 # -----------------------------------------------------------------------------
-<<<<<<< HEAD
 # Paper: Z. Gao, X. Shi, H. Wang, Y. Zhu, Y. B. Wang, M. Li, and D. Y. Yeung (2022)
-=======
-# Paper: Gao, Z., Shi, X., Wang, H., Zhu, Y., Wang, Y., Li, M., Yeung, D. Y. (2022)
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 #        Earthformer: Exploring Space-Time Transformers for Earth System Forecasting
 #        https://proceedings.neurips.cc/paper_files/paper/2022/file/a2affd71d15e8fedffe18d0219f4837a-Paper-Conference.pdf
 # Source implementation: https://github.com/amazon-science/earth-forecasting-transformer

@@ -1,26 +1,16 @@
 import os
 import math
-<<<<<<< HEAD
 import yaml
 import random
 import argparse
 import torch
 import torch.nn as nn
 import numpy as np
-=======
-import torch
-import torch.nn as nn
-import numpy as np
-import argparse
-import random
-import yaml
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from generator_sevir_withpangu import DataGenerator
 from util.preprocess import reshape_patch
 from load_earthformer_cfg import load_earthformer_config
-<<<<<<< HEAD
 from evaluation.scores_rnn_sevir import Model_eval_RNN
 from evaluation.scores_non_rnn_sevir import Model_eval_nonRNN
 
@@ -62,18 +52,6 @@ def schedule_sampling(eta, itr, args, batchsize):
                             args.patch_size ** 2 * args.img_channel))
     return eta, real_input_flag
 
-=======
-
-from model.predrnnv2 import PredRNNv2_model
-from model.simvpv2 import SimVP_model
-from model.tau_model import TAU_model
-from model.earthformer import CuboidTransformer_model
-from model.pastnet import PastNet_model
-from model.afno import AFNO_model
-from evaluation.scores_rnn_sevir import Model_eval_RNN
-from evaluation.scores_non_rnn_sevir import Model_eval_nonRNN
-
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 def reserve_schedule_sampling_exp(itr, batch_size, args):
     T, img_channel, img_height, img_width = args.in_shape
     if itr < args.r_sampling_step_1:
@@ -170,7 +148,6 @@ def DoTrain(args):
         'tau': TAU_model,
         'earthformer': CuboidTransformer_model,
         'pastnet': PastNet_model,
-<<<<<<< HEAD
         'alphapre': get_model,
         'nowcastnet': Net,
         'lmc_memory': Predictor,
@@ -178,9 +155,6 @@ def DoTrain(args):
         'lightnet': LightNet_Model,
         'mm_rnn': Model,
         'stjointnet': CM_STJointNet,
-=======
-        'afno': AFNO_model,
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
     }
     ModelClass = MODEL_REGISTRY.get(args.model.lower())
     if ModelClass is None:
@@ -201,7 +175,6 @@ def DoTrain(args):
 
     # Define the optimizer and scheduler
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
-<<<<<<< HEAD
     if args.model == 'lmc_memory':
         total_steps = 2 * len(train_loader) * args.epoch
         scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, total_steps=total_steps)
@@ -247,21 +220,11 @@ def DoTrain(args):
                                     1.13557968e+01, 7.22266293e+00, 4.51211548e+00]]).to(args.device)
     mean_pangu = mean_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
     std_pangu = std_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
-=======
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(train_loader), epochs=args.epoch)
-
-    # eval
-    if args.model is 'predrnn_v2':
-        model_eval_testdata = Model_eval_RNN(args)
-    else:
-        model_eval_testdata = Model_eval_nonRNN(args)
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 
     for epoch in range(args.epoch):
         print("epoch:", epoch + 1)
         with tqdm(total=len(train_loader)) as pbar:
             model.train()
-<<<<<<< HEAD
             for i, (X, X_pangu) in enumerate(train_loader):
                 ims_pangu = X_pangu.float().to(args.device)
                 B, T, var, pressure_level, H, W = ims_pangu.shape
@@ -272,11 +235,6 @@ def DoTrain(args):
 
                 # For RNN models
                 if args.model in ['predrnn_v2', 'mm_rnn']:
-=======
-            for i, X in enumerate(train_loader):
-                # For RNN models
-                if args.model is 'predrnn_v2':
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                     ims = X.numpy().astype(np.float32)
                     # [B, T, H, W]
                     ims = np.transpose(ims, (0, 3, 1, 2))
@@ -286,7 +244,6 @@ def DoTrain(args):
                     # Normalization
                     ims /= 255
                     ims = torch.FloatTensor(ims).to(args.device)
-<<<<<<< HEAD
                     itr = epoch * len(train_loader) + i
                     # Reverse scheduled sampling
                     if args.model == 'predrnn_v2':
@@ -336,15 +293,6 @@ def DoTrain(args):
                     loss.backward()
                     optimizer.step()
                     scheduler.step()
-=======
-                    # Reverse scheduled sampling
-                    itr = epoch * len(train_loader) + i
-                    real_input_flag = reserve_schedule_sampling_exp(itr, ims.shape[0], args)
-
-                    next_frames, decouple_loss = model(ims, real_input_flag)
-                    decouple_loss = torch.mean(decouple_loss)
-                    loss = MSE_criterion(next_frames, ims[:, 1:]) + 0.1 * decouple_loss
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 
                 # For Non-RNN models
                 else:
@@ -353,17 +301,12 @@ def DoTrain(args):
                     ims = ims.permute(0, 3, 1, 2)
                     # Normalization
                     ims /= 255
-<<<<<<< HEAD
                     if args.model in ['earthformer', 'nowcastnet']:
-=======
-                    if args.model == 'earthformer':
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                         # For earthformer, change the tensor shape to [B, T, H, W, C]
                         ims = ims.unsqueeze(dim=4)
                     else:
                         # [B, T, C, H, W]
                         ims = ims.unsqueeze(dim=2)
-<<<<<<< HEAD
 
                     if args.model in ['earthformer', 'nowcastnet', 'afno']:
                         pred = model(ims[:, :5])
@@ -389,18 +332,6 @@ def DoTrain(args):
 
                 lr = optimizer.state_dict()['param_groups'][0]['lr']
                 pbar.set_description('train loss: {:.5f}, learning rate: {:.7f}'.format(loss.item(), lr))
-=======
-                    pred = model(ims[:, :5])
-
-                    loss = MSE_criterion(pred, ims[:, 5:])
-
-                optimizer.zero_grad()
-                loss.backward()
-
-                optimizer.step()
-                scheduler.step()
-
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                 pbar.update(1)
 
         model_weights_path = args.model_weight_dir + f'model_weight_epoch_{epoch + 1}.pth'
@@ -420,7 +351,6 @@ def DoTrain(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='afno',
-<<<<<<< HEAD
                         choices=['afno', 'predrnn_v2', 'simvp_v2', 'tau', 'earthformer', 'pastnet', 'alphapre',
                                  'nowcastnet', 'lmc_memory', 'lightnet', 'mm_rnn', 'stjointnet'],
                         help='The model used for training')
@@ -436,29 +366,15 @@ if __name__ == "__main__":
     parser.add_argument('--out_len', type=int, default=20, help='number of predicted frames')
 
     # Reverse scheduled sampling
-=======
-                        choices=['afno', 'predrnn_v2', 'simvp_v2', 'tau', 'earthformer', 'pastnet'],
-                        help='The model used for training')
-    parser.add_argument('--dataset', type=str, default='sevir', help='dataset name')
-    parser.add_argument('--patch_size', type=int, default=4, help='')
-    parser.add_argument('--img_width', type=int, default=128, help='image size')
-    parser.add_argument('--img_channel', type=int, default=1, help='')
-
-    # Reverse scheduled sampling
-    parser.add_argument('--reverse_scheduled_sampling', type=int, default=1)
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
     parser.add_argument('--r_sampling_step_1', type=int, default=25000)
     parser.add_argument('--r_sampling_step_2', type=float, default=50000)
     parser.add_argument('--r_exp_alpha', type=float, default=5000)
 
-<<<<<<< HEAD
     # Scheduled sampling
     parser.add_argument('--sampling_stop_iter', type=int, default=50000)
     parser.add_argument('--sampling_start_value', type=float, default=1.0)
     parser.add_argument('--sampling_changing_rate', type=float, default=0.00002)
 
-=======
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
     # Training hyperparameters
     parser.add_argument('--device', type=str, default='cuda', choices=['cpu', 'cuda'], help='use cpu/gpu')
     parser.add_argument('--gpus', type=str, default='0', help='gpu device ID')
@@ -495,7 +411,6 @@ if __name__ == "__main__":
     args.record_dir = folder_path + '/'
     args.model_weight_dir = weight_path + '/'
 
-<<<<<<< HEAD
     from model.predrnnv2 import PredRNNv2_model
     from model.simvpv2 import SimVP_model
     from model.tau_model import TAU_model
@@ -509,6 +424,4 @@ if __name__ == "__main__":
     from model.mm_rnn import Model
     from model.stjointnet import CM_STJointNet
 
-=======
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
     DoTrain(args)

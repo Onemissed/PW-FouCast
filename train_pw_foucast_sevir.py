@@ -8,10 +8,6 @@ import yaml
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from generator_sevir_withpangu import DataGenerator
-<<<<<<< HEAD
-=======
-
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 from model.pw_foucast import PW_FouCast
 from evaluation.scores_non_rnn_sevir import Model_eval_nonRNN
 
@@ -131,11 +127,7 @@ def DoTrain(args):
                 ims_pangu = ims_pangu[:, :, :, 2:6, :, :]
                 ims_pangu = ims_pangu.reshape(B, T, -1, H, W)
 
-<<<<<<< HEAD
                 """Phase 1: Storing stage"""
-=======
-                """Phase 1"""
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                 model.module.memory.phase_memory.requires_grad = True
                 pred = model(ims[:, :5], ims_pangu, ims[:, 5:])
 
@@ -153,11 +145,7 @@ def DoTrain(args):
                 optimizer.step()
                 scheduler.step()
 
-<<<<<<< HEAD
                 """Phase 2: Matching stage"""
-=======
-                """Phase 2"""
->>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                 model.module.memory.phase_memory.requires_grad = False
                 pred = model(ims[:, :5], ims_pangu, None)
 
