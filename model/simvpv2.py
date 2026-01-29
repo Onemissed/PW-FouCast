@@ -3,7 +3,11 @@ from torch import nn
 from module.simvp_modules import ConvSC, GASubBlock
 
 # -----------------------------------------------------------------------------
+<<<<<<< HEAD
 # Paper: C. Tan, Z. Gao, S. Li, and S. Z. Li (2025)
+=======
+# Paper: Tan, C., Gao, Z., Li, S., Li, S. Z. (2025)
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 #        SimVPv2: Towards Simple yet Powerful Spatiotemporal Predictive Learning
 #        https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10891381
 # Source implementation: https://github.com/chengtan9907/OpenSTL/tree/OpenSTLv0.3.0

@@ -2,12 +2,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+<<<<<<< HEAD
 # -----------------------------------------------------------------------------
 # Paper: Y. Wang, H. Wu, J. Zhang, Z. Gao, J. Wang, P. S. Yu, and M. Long (2022)
 #        Predrnn: A recurrent neural network for spatiotemporal predictive learning
 #        https://ieeexplore.ieee.org/abstract/document/9749915/
 # -----------------------------------------------------------------------------
 
+=======
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
 class PredRNNv2_model(nn.Module):
     def __init__(self, num_layers, num_hidden, args):
         super(PredRNNv2_model, self).__init__()
@@ -30,6 +33,10 @@ class PredRNNv2_model(nn.Module):
                                    kernel_size=1, stride=1, padding=0, bias=False)
 
         # shared adapter
+<<<<<<< HEAD
+=======
+        # 注意：下面是predrnn v2和v1的主要区别
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
         adapter_num_hidden = num_hidden[0]
         self.adapter = nn.Conv2d(
             adapter_num_hidden, adapter_num_hidden, 1, stride=1, padding=0, bias=False)
@@ -59,11 +66,25 @@ class PredRNNv2_model(nn.Module):
 
         memory = torch.zeros([batch, self.num_hidden[0], height, width]).cuda()
         for t in range(self.args.total_length - 1):
+<<<<<<< HEAD
+=======
+            # 注意：predrnn v2使用的是反向计划采样
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
             if t == 0:
                 net = frames[:, t]
             else:
                 net = mask_true[:, t - 1] * frames[:, t] + (1 - mask_true[:, t - 1]) * x_gen
 
+<<<<<<< HEAD
+=======
+            # if t < self.args.input_length:
+            #     net = frames[:,t]
+            # else:
+            #     net = mask_true[:, t - self.args.input_length] * frames[:, t] + \
+            #           (1 - mask_true[:, t - self.args.input_length]) * x_gen
+
+            # 注意：ST_LSTM单元有四个输入
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
             h_t[0], c_t[0], memory, delta_c, delta_m = self.cell_list[0](net, h_t[0], c_t[0], memory)
             delta_c_list[0] = F.normalize(
                 self.adapter(delta_c).view(delta_c.shape[0], delta_c.shape[1], -1), dim=2)
@@ -71,6 +92,10 @@ class PredRNNv2_model(nn.Module):
                 self.adapter(delta_m).view(delta_m.shape[0], delta_m.shape[1], -1), dim=2)
 
             for i in range(1, self.num_layers):
+<<<<<<< HEAD
+=======
+                # print('layer number is:',str(i),memory.shape,h_t[i].shape)
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
                 h_t[i], c_t[i], memory, delta_c, delta_m = self.cell_list[i](h_t[i - 1], h_t[i], c_t[i], memory)
                 delta_c_list[i] = F.normalize(
                     self.adapter(delta_c).view(delta_c.shape[0], delta_c.shape[1], -1), dim=2)
@@ -91,7 +116,13 @@ class PredRNNv2_model(nn.Module):
         return next_frames, decouple_loss
 
 
+<<<<<<< HEAD
 class SpatioTemporalLSTMCellv2(nn.Module):
+=======
+# 重点：PredRNNv2中使用的ST_LSTM单元
+class SpatioTemporalLSTMCellv2(nn.Module):
+
+>>>>>>> 752aa2b6688259cf98d032868b1fc073cd797198
     def __init__(self, in_channel, num_hidden, width, filter_size, stride, layer_norm):
         super(SpatioTemporalLSTMCellv2, self).__init__()
 
