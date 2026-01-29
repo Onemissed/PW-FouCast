@@ -11,8 +11,7 @@ from torch.utils.data import DataLoader
 from generator_sevir_withpangu import DataGenerator
 from util.preprocess import reshape_patch
 from load_earthformer_cfg import load_earthformer_config
-from evaluation.scores_rnn_sevir import Model_eval_RNN
-from evaluation.scores_non_rnn_sevir import Model_eval_nonRNN
+from evaluation.scores_sevir import Model_eval
 
 def schedule_sampling(eta, itr, args, batchsize):
     zeros = np.zeros((batchsize,
@@ -104,13 +103,13 @@ def reserve_schedule_sampling_exp(itr, batch_size, args):
                                   args.patch_size ** 2 * img_channel))
     return torch.FloatTensor(real_input_flag).to(args.device)
 
-def load_model_config(model_name: str, cfg_root='config/sevir') -> dict:
+def load_config(model_name, cfg_root='config/sevir'):
     path = os.path.join(cfg_root, f'{model_name.lower()}.yaml')
     if not os.path.exists(path):
         raise FileNotFoundError(f"Config for model '{model_name}' not found at {path!r}")
+
     with open(path, 'r') as f:
-        full_cfg = yaml.safe_load(f)
-    return full_cfg['model']
+        return yaml.safe_load(f)
 
 def DoTrain(args):
     # Data index
@@ -136,12 +135,6 @@ def DoTrain(args):
         for line in file:
             test_list_pangu.append(line.rstrip('\n').rstrip('\r\n'))
 
-    # data
-    train_data = DataGenerator(train_list, train_list_pangu)
-    train_loader = DataLoader(dataset=train_data, batch_size=args.batchsize, shuffle=True, num_workers=0)
-    test_data = DataGenerator(test_list, test_list_pangu)
-    test_loader = DataLoader(dataset=test_data, batch_size=args.batchsize, shuffle=False, num_workers=0)
-
     MODEL_REGISTRY = {
         'predrnn_v2': PredRNNv2_model,
         'simvp_v2': SimVP_model,
@@ -165,10 +158,25 @@ def DoTrain(args):
     if args.model == 'earthformer':
         model_kwargs = load_earthformer_config('sevir')
     else:
-        model_kwargs = load_model_config(args.model.lower(), 'config/sevir')
+        config = load_config(args.model.lower())
+        model_kwargs = config.get('model', {})
         model_kwargs['args'] = args
+        train_cfg = config.get('train', {})
+        batch_size = train_cfg.get('batch_size', 16)  # 16 is a fallback default
+        model_lr = train_cfg.get('learning_rate', 1e-3)
+        args.batchsize = batch_size
+        args.lr = model_lr
+    print("model: ", args.model)
+    print("lr: ", args.lr)
+    print("batch size: ", args.batchsize)
     model = ModelClass(**model_kwargs).to(args.device)
     model = torch.nn.DataParallel(model)
+
+    # data
+    train_data = DataGenerator(train_list, train_list_pangu)
+    train_loader = DataLoader(dataset=train_data, batch_size=args.batchsize, shuffle=True, num_workers=0)
+    test_data = DataGenerator(test_list, test_list_pangu)
+    test_loader = DataLoader(dataset=test_data, batch_size=args.batchsize, shuffle=False, num_workers=0)
 
     # Loss function
     MSE_criterion = nn.MSELoss(reduction='mean')
@@ -182,10 +190,8 @@ def DoTrain(args):
         scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(train_loader), epochs=args.epoch)
 
     # eval
-    if args.model == 'predrnn_v2':
-        model_eval_testdata = Model_eval_RNN(args)
-    else:
-        model_eval_testdata = Model_eval_nonRNN(args)
+    model_eval_testdata = Model_eval(args)
+
     eta = args.sampling_start_value
 
     mean_pangu = torch.FloatTensor([[1.2078049e+03, 7.7082539e+03, 1.4697904e+04, 3.0432422e+04, 4.2541539e+04,
@@ -221,6 +227,7 @@ def DoTrain(args):
     mean_pangu = mean_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
     std_pangu = std_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
 
+    print('>'*35 + ' training ' + '<'*35)
     for epoch in range(args.epoch):
         print("epoch:", epoch + 1)
         with tqdm(total=len(train_loader)) as pbar:
@@ -302,7 +309,6 @@ def DoTrain(args):
                     # Normalization
                     ims /= 255
                     if args.model in ['earthformer', 'nowcastnet']:
-                        # For earthformer, change the tensor shape to [B, T, H, W, C]
                         ims = ims.unsqueeze(dim=4)
                     else:
                         # [B, T, C, H, W]
@@ -377,7 +383,7 @@ if __name__ == "__main__":
 
     # Training hyperparameters
     parser.add_argument('--device', type=str, default='cuda', choices=['cpu', 'cuda'], help='use cpu/gpu')
-    parser.add_argument('--gpus', type=str, default='0', help='gpu device ID')
+    parser.add_argument('--gpus', type=str, default='0,1', help='gpu device ID')
     parser.add_argument('--epoch', type=int, default=100, help='')
     parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=16, help='batch size')

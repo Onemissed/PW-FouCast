@@ -10,3 +10,7 @@ model:
   anet_weight: 0.1
   amp_weight: 0.01
   aweight_stop_steps: 5000
+
+train:
+  batch_size: 8
+  learning_rate: 0.0001

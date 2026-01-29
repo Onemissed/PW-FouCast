@@ -9,7 +9,7 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 from generator_sevir_withpangu import DataGenerator
 from model.pw_foucast import PW_FouCast
-from evaluation.scores_non_rnn_sevir import Model_eval_nonRNN
+from evaluation.scores_sevir import Model_eval
 
 def load_model_config(model_name: str, cfg_root='config/sevir') -> dict:
     path = os.path.join(cfg_root, f'{model_name.lower()}.yaml')
@@ -60,6 +60,9 @@ def DoTrain(args):
     # Load the model configuration
     model_kwargs = load_model_config(args.model.lower(), 'config/sevir')
     model_kwargs['args'] = args
+    print("model: ", args.model)
+    print("lr: ", args.lr)
+    print("batch size: ", args.batchsize)
     model = ModelClass(**model_kwargs).to(args.device)
     model = torch.nn.DataParallel(model)
 
@@ -72,7 +75,7 @@ def DoTrain(args):
     scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, total_steps=total_steps)
 
     # eval
-    model_eval_testdata = Model_eval_nonRNN(args)
+    model_eval_testdata = Model_eval(args)
 
     mean_pangu = torch.FloatTensor([[1.2078049e+03, 7.7082539e+03, 1.4697904e+04, 3.0432422e+04, 4.2541539e+04,
                                      5.6434527e+04, 7.2791742e+04, 9.2798367e+04, 1.0485328e+05, 1.1906316e+05,
@@ -107,6 +110,7 @@ def DoTrain(args):
     mean_pangu = mean_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
     std_pangu = std_pangu.unsqueeze(-1).unsqueeze(-1).unsqueeze(0).unsqueeze(0)
 
+    print('>'*35 + ' training ' + '<'*35)
     for epoch in range(args.epoch):
         print("epoch:", epoch + 1)
         with tqdm(total=len(train_loader)) as pbar:
@@ -163,6 +167,8 @@ def DoTrain(args):
                 optimizer.step()
                 scheduler.step()
 
+                lr = optimizer.state_dict()['param_groups'][0]['lr']
+                pbar.set_description('train loss: {:.5f}, learning rate: {:.7f}'.format(loss.item(), lr))
                 pbar.update(1)
 
         model_weights_path = args.model_weight_dir + f'model_weight_epoch_{epoch + 1}.pth'

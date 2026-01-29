@@ -5,9 +5,9 @@ import torch.nn.functional as F
 from timm.models.layers import DropPath, trunc_normal_
 
 # -----------------------------------------------------------------------------
-# Paper: Guibas, J., Mardani, M., Li, Z., Tao, A., Anandkumar, A., Catanzaro, B. (2021)
-#        Adaptive Fourier Neural Operators: Efficient Token Mixers for Transformers
-#        https://arxiv.org/pdf/2111.13587
+# Paper: J. Guibas, M. Mardani, Z. Li, A. Tao, A. Anandkumar, and B. Catanzaro (2021)
+#        Efficient token mixing for transformers via adaptive fourier neural operators
+#        https://openreview.net/forum?id=EXHG-A3jlM
 # Source implementation: https://github.com/NVlabs/AFNO-transformer
 # -----------------------------------------------------------------------------
 
@@ -309,7 +309,6 @@ class AFNO2D(nn.Module):
             H, W = spatial_size
 
         x = x.reshape(B, H, W, C)
-        # We use fft2 instead of rfft2
         x = torch.fft.fft2(x, dim=(1, 2), norm="ortho")
         x = x.reshape(B, x.shape[1], x.shape[2], self.num_blocks, C)
 
