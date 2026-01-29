@@ -1,0 +1,5 @@
+model:
+  obs_tra_frames: 5
+  obs_channels: 1
+  wrf_tra_frames: 20
+  wrf_channels: 20

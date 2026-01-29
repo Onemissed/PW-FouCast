@@ -1,0 +1,12 @@
+model:
+  img_channels: 1
+  dim: 32
+  T_in: 5
+  T_out: 20
+  input_shape: (128, 128)
+  n_layers: 3
+  spec_num: 20
+  pha_weight: 0.01
+  anet_weight: 0.1
+  amp_weight: 0.01
+  aweight_stop_steps: 5000

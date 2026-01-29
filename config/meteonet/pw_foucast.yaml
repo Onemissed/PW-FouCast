@@ -1,0 +1,10 @@
+model:
+  in_shape: [5, 1, 128, 128]
+  mlp_ratio: 8
+  hid_S: 32
+  N_S: 4
+  N_T: 8
+  spatio_kernel_enc: 3
+  spatio_kernel_dec: 3
+  drop: 0.
+  drop_path: 0.1
