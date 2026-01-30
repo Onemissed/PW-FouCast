@@ -15,17 +15,13 @@ This repository contains the official implementation of **PW-FouCast**, a novel 
 > 
 > 
 
-* 
-**Pangu-Weather-guided Frequency Modulation (PFM):** Steers the model's spectral magnitudes and phases toward physical grounds by aligning them with meteorological priors.
+* **Pangu-Weather-guided Frequency Modulation (PFM):** Steers the model's spectral magnitudes and phases toward physical grounds by aligning them with meteorological priors.
 
-* 
-**Frequency Memory (FM):** Utilizes a learned repository of ground-truth spectral patterns to dynamically correct phase discrepancies and preserve diverse temporal evolution patterns such as expansion and contraction.
+* **Frequency Memory (FM):** Utilizes a learned repository of ground-truth spectral patterns to dynamically correct phase discrepancies and preserve diverse temporal evolution patterns such as expansion and contraction.
 
-* 
-**Inverted Frequency Attention (IFA):** Employs a residual-reinjection mechanism to recover high-frequency components often attenuated by standard spectral filtering, maintaining sharp structural fidelity in long-term forecasts.
+* **Inverted Frequency Attention (IFA):** Employs a residual-reinjection mechanism to recover high-frequency components often attenuated by standard spectral filtering, maintaining sharp structural fidelity in long-term forecasts.
 
-* 
-**Extended Nowcasting Horizon:** Significantly outperforms both radar-only and standard multi-modal baselines on SEVIR and MeteoNet benchmarks, mitigating the performance degradation typical of long-lead predictions.
+* **Extended Nowcasting Horizon:** Significantly outperforms both radar-only and standard multi-modal baselines on SEVIR and MeteoNet benchmarks, mitigating the performance degradation typical of long-lead predictions.
 
 ### 🏗️ Model Architecture
 [//]: # (![Model Architecture]&#40;docs/assets/model_architecture.png&#41;)
