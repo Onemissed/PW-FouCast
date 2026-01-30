@@ -12,8 +12,6 @@ This repository contains the official implementation of **PW-FouCast**, a novel 
 [//]: # (> Our model leverages spectral fusion to bridge the gap between large-scale atmospheric dynamics and local-scale convective patterns.)
 > **PW-FouCast:** Pangu-Weather-guided Fourier-domain foreCast.
 > Our model leverages Pangu-Weather forecasts as spectral priors within a Fourier-based backbone to effectively resolve the representational heterogeneities between radar imagery and meteorological data.
-> 
-> 
 
 * **Pangu-Weather-guided Frequency Modulation (PFM):** Steers the model's spectral magnitudes and phases toward physical grounds by aligning them with meteorological priors.
 
@@ -71,10 +69,10 @@ We evaluate our method on two primary datasets: **SEVIR-LR** and **MeteoNet**.
 2. **Process:**
 ```bash
 # Convert raw .npz to .npy and downsample
-python save_meteonet.py
+python ./process_dataset/save_meteonet.py
 
 # Partition into events using sliding windows
-python split_meteonet.py
+python ./process_dataset/split_meteonet.py
 
 ```
 
@@ -85,9 +83,9 @@ python split_meteonet.py
 1. **Download:** [SEVIR-LR Dataset Link](https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip)
 2. **Process:**
 ```bash
-python process_sevir.py  # .h5 to .npy
-python save_sevir.py     # Split into single events
-python split_sevir.py    # Sliding window partition
+python ./process_dataset/process_sevir.py  # .h5 to .npy
+python ./process_dataset/save_sevir.py     # Split into single events
+python ./process_dataset/split_sevir.py    # Sliding window partition
 
 ```
 
