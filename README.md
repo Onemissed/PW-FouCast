@@ -3,7 +3,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?logo=PyTorch&logoColor=white)](https://pytorch.org/)
 
-This repository contains the official implementation of **PW-FouCast**, a novel frequency-domain fusion framework designed to extend precipitation nowcasting horizons by integrating weather foundation model priors with high-resolution radar observations. The model addresses the representational gap between radar imagery and meteorological data by leveraging Pangu-Weather forecasts as spectral priors within a Fourier-based backbone. It introduces three primary innovations: Pangu-Weather-guided Frequency Modulation for spectral alignment, a Frequency Memory module to correct phase discrepancies and preserve temporal evolution, and Inverted Frequency Attention to reconstruct high-frequency details typically lost in spectral filtering. Extensive testing on SEVIR and MeteoNet benchmarks confirms that PW-FouCast achieves state-of-the-art results, significantly improving long-lead forecast reliability and structural fidelity.
+This repository contains the official implementation of **PW-FouCast**, a novel frequency-domain fusion framework designed to extend precipitation nowcasting horizons by integrating weather foundation model priors with radar observations.
 
 ---
 
