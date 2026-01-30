@@ -1,118 +1,117 @@
-This repository contains the full codebase for the paper:
+# Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors
 
-> **Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors**  
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?logo=PyTorch&logoColor=white)](https://pytorch.org/)
 
-The project implements:
+This repository contains the official implementation of **PW-FouCast**, a framework that integrates atmospheric foundation model priors with high-resolution radar observations for superior precipitation nowcasting.
 
-1. **Our proposed model**  
-   - Pangu-Weather-guided Fourier-domain foreCast (PW-FouCast)
+---
 
-2. **Baseline models** for precipitation nowcasting:  
-   - PredRNN v2
-   - SimVP v2
-   - TAU  
-   - Earthformer  
-   - PastNet  
-   - AlphaPre  
-   - NowcastNet  
-   - LMC-Memory  
-   - AFNO  
-   - LightNet  
-   - MM-RNN  
-   - CM-STjointNet  
+## 🌟 Key Features
+
+> **PW-FouCast:** Pangu-Weather-guided Fourier-domain foreCast. 
+> Our model leverages spectral fusion to bridge the gap between large-scale atmospheric dynamics and local-scale convective patterns.
+
+### 🏗️ Model Architecture
+[//]: # (![Model Architecture]&#40;docs/assets/model_architecture.png&#41;)
+<p align="center">
+  <img src="docs/assets/model_architecture.png" width="1000" alt="Model Architecture">
+</p>
+
+[//]: # (*Figure 1: Overview of the PW-FouCast framework.*)
+<p align="center">
+  <em>Figure 1: Overview of the PW-FouCast framework.</em>
+</p>
+
+---
+
+## 📊 Implemented Models
+
+| Category                 | Models                                                       |
+|:-------------------------|:-------------------------------------------------------------|
+| **Proposed**             | **PW-FouCast**                                               |
+| **Unimodal Baselines**   | PredRNN v2, SimVP v2, TAU, Earthformer, PastNet, AlphaPre, NowcastNet, LMC-Memory, AFNO |
+| **Multimodal Baselines** | LightNet, MM-RNN, CM-STjointNet |
 
 ---
 
 ## 📂 Repository Structure
 
+```text
+├── config/             # YAML configurations (MeteoNet & SEVIR)
+├── data_index/         # Dataset indexing and manifest files
+├── evaluation/         # Metrics (CSI, HSS, MSE) and evaluation scripts
+├── model/              # Implementation of PW-FouCast and baselines
+├── module/             # Shared building blocks (convolutions, attention, etc.)
+├── util/               # Logging, visualization, and utility functions
+└── README.md           # Project documentation
+
 ```
 
-├── config/                  # YAML config files for each model
-│   ├── meteonet/            # Config files for the MeteoNet dataset
-│   └── sevir/               # Config files for the SEVIR dataset
-├── data_index/              # Dataset indexing
-├── evaluation/              # Code for model evaluation and metric computation
-├── model/                   # Model implementations
-├── module/                  # Core building blocks used across different models
-├── util/                    # Utility functions
-└── README.md                # This file
+---
 
-````
+## 📥 Dataset Preparation
+
+We evaluate our method on two primary datasets: **SEVIR-LR** and **MeteoNet**.
+
+### 1. MeteoNet Dataset
+
+1. **Download:** [MeteoNet Radar Reflectivity](https://meteonet.umr-cnrm.fr/dataset/data/NW/radar/reflectivity_old_product/)
+2. **Process:**
+```bash
+# Convert raw .npz to .npy and downsample
+python save_meteonet.py
+
+# Partition into events using sliding windows
+python split_meteonet.py
+
+```
+
+
+
+### 2. SEVIR-LR Dataset
+
+1. **Download:** [SEVIR-LR Dataset Link](https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip)
+2. **Process:**
+```bash
+python process_sevir.py  # .h5 to .npy
+python save_sevir.py     # Split into single events
+python split_sevir.py    # Sliding window partition
+
+```
+
 
 ---
 
+## 🏃 Quick Start
 
-## 📥 Dataset
+### Training
 
-We use **SEVIR-LR** and **MeteoNet** dataset for training and evaluation:
+To train a model (e.g., AFNO) on your chosen dataset, use the following commands:
 
-1. **MeteoNet dataset**:
-   * **Download**:
-      Visit [https://meteonet.umr-cnrm.fr/dataset/data/NW/radar/reflectivity_old_product/](https://meteonet.umr-cnrm.fr/dataset/data/NW/radar/reflectivity_old_product/)
-   
-   * **Processing**:
-   We provide two helper scripts to convert the raw npz file into NumPy arrays and to split out individual precipitation events
-        ```
-        # 1) Save each radar data into a single .npy file and downsampling these data
-             python save_meteonet.py
-     
-        # 2) Using sliding window approach to partition model inputs and ground truth data
-             python split_meteonet.py
-        ```
-   * **Directory layout after processing**:
-       ```
-       data/meteonet/data/nw/reflectivity_split/
-       ├── 20160101_0000.npy
-       ├── 20160101_0115.npy
-       ├── ......
-       └── 20181031_2120.npy
-       ```
-     
-2. **SEVIR-LR dataset**:
-   * **Download**:
-      Visit [https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip](https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip)
-   
-   * **Processing**:
-      We provide three helper scripts to convert the raw HDF5 file into NumPy arrays and to split out individual precipitation events
-        ```
-        # 1) Convert the raw .h5 file to .npy array
-             python process_sevir.py
-        
-        # 2) Split each precipitation event into a single .npy file
-             python save_sevir.py
-     
-        # 3) Use sliding window to split each precipitation event into 3 npy files.
-             python split_sevir.py
-        ```
-   * **Directory layout after processing**:
-     ```
-     data/SEVIR/data/vil_single/
-     ├── random/
-     └── storm/
-     ```
+**SEVIR-LR:**
+
+```bash
+python train_baseline_sevir.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
+
+```
+
+**MeteoNet:**
+
+```bash
+python train_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
+
+```
 
 ---
 
-## 🏃‍ Quick Start
+## 📈 Experimental Results
 
-### Train a model
+*Figure 2: Qualitative comparison of PW-FouCast against SOTA baselines on a heavy precipitation event.*
 
-1. **For SEVIR-LR dataset**:
-    ```
-    python train_baseline_sevir.py \
-      --model afno \
-      --batchsize 16 \
-      --epoch 100 \
-      --lr 1e-3 \
-      --gpus 0
-    ```
-   
-2. **For MeteoNet dataset**:
-    ```
-    python train_meteonet.py \
-      --model m_afno \
-      --batchsize 16 \
-      --epoch 100 \
-      --lr 1e-3 \
-      --gpus 0
-    ```
+| Model | CSI (0.5) | HSS | MSE ↓ |
+| --- | --- | --- | --- |
+| **PW-FouCast** | **0.XXX** | **0.XXX** | **X.XX** |
+| Earthformer | 0.XXX | 0.XXX | X.XX |
+| NowcastNet | 0.XXX | 0.XXX | X.XX |
+
