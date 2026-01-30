@@ -12,13 +12,6 @@ from util.cuboid_transformer_patterns import CuboidSelfAttentionPatterns, Cuboid
 from util.earthformer_utils import (get_activation, get_norm_layer, _generalize_padding, _generalize_unpadding,
                                     apply_initialization, round_to)
 
-# -----------------------------------------------------------------------------
-# Paper: Z. Gao, X. Shi, H. Wang, Y. Zhu, Y. B. Wang, M. Li, and D. Y. Yeung (2022)
-#        Earthformer: Exploring Space-Time Transformers for Earth System Forecasting
-#        https://proceedings.neurips.cc/paper_files/paper/2022/file/a2affd71d15e8fedffe18d0219f4837a-Paper-Conference.pdf
-# Source implementation: https://github.com/amazon-science/earth-forecasting-transformer
-# -----------------------------------------------------------------------------
-
 class PosEmbed(nn.Module):
 
     def __init__(self, embed_dim, maxT, maxH, maxW, typ='t+h+w'):
@@ -2781,6 +2774,13 @@ class FinalStackUpsamplingDecoder(nn.Module):
                 x = x.reshape(B * T, H, W, C).permute(0, 3, 1, 2)
                 x = conv_block(x).permute(0, 2, 3, 1).reshape(B, T, H, W, -1)
         return x
+
+# -----------------------------------------------------------------------------
+# Paper: Z. Gao, X. Shi, H. Wang, Y. Zhu, Y. B. Wang, M. Li, and D. Y. Yeung (2022)
+#        Earthformer: Exploring Space-Time Transformers for Earth System Forecasting
+#        https://proceedings.neurips.cc/paper_files/paper/2022/file/a2affd71d15e8fedffe18d0219f4837a-Paper-Conference.pdf
+# Source implementation: https://github.com/amazon-science/earth-forecasting-transformer
+# -----------------------------------------------------------------------------
 
 class CuboidTransformer_model(nn.Module):
     """Cuboid Transformer for spatiotemporal forecasting

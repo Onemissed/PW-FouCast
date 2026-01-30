@@ -1,6 +1,12 @@
 import torch
 from torch import nn
 
+# -----------------------------------------------------------------------------
+# Paper: Z. Ma, H. Zhang, and J. Liu (2023)
+#        Mm-rnn: A multimodal rnn for precipitation nowcasting
+#        https://ieeexplore.ieee.org/abstract/document/10092888
+# -----------------------------------------------------------------------------
+
 class ConvLSTM_Cell(nn.Module):
     def __init__(self, input_channel, output_channel, h_w, kernel_size, stride, padding):
         super().__init__()

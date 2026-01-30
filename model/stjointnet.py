@@ -575,8 +575,15 @@ class MMSTJointDecoder(nn.Module):
         return x
     
 
+# -----------------------------------------------------------------------------
+# Paper: K. Zheng, L. He, H. Ruan, S. Yang, J. Zhang, C. Luo, S. Tang, J. Zhang, Y. Tian, and J. Cheng (2024)
+#        A cross-modal spatiotemporal joint predictive network for rainfall nowcasting
+#        https://ieeexplore.ieee.org/abstract/document/10662919/
+# Source implementation: https://github.com/Helomin/CM-STJointNet
+# -----------------------------------------------------------------------------
+
 class CM_STJointNet(nn.Module):
-    def __init__(self, input_channel, hidden_dim, output_channel, downscaling_factors, layers, heads):
+    def __init__(self, args, input_channel, hidden_dim, output_channel, downscaling_factors, layers, heads):
         super(CM_STJointNet, self).__init__()
         self.x_encoder = STJointEncoder(input_channel=input_channel, hidden_dim=hidden_dim, layers=layers,
                                             downscaling_factors=downscaling_factors, heads=heads)

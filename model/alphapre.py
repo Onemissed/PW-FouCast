@@ -185,6 +185,12 @@ class AlphaMixer(nn.Module):
         xt = rearrange(xt, '(b t) c h w -> b t c h w', t=self.aft_seq_length)
         return xt
 
+# -----------------------------------------------------------------------------
+# Paper: K. Lin, B. Zhang, D. Yu, W. Feng, S. Chen, F. Gao, X. Li, and Y. Ye (2025)
+#        Alphapre: Amplitude-phase disentanglement model for precipitation nowcasting
+#        https://openaccess.thecvf.com/content/CVPR2025/html/Lin_AlphaPre_Amplitude-Phase_Disentanglement_Model_for_Precipitation_Nowcasting_CVPR_2025_paper.html
+# Source implementation: https://github.com/linkenghong/AlphaPre
+# -----------------------------------------------------------------------------
 
 class AlphaPre(nn.Module):
     def __init__(self, pre_seq_length, aft_seq_length, input_shape, input_dim, 

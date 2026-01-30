@@ -3,13 +3,6 @@ from torch import nn
 from module.DiscreteSTModel_modules import *
 from module.Fourier_modules import *
 
-# -----------------------------------------------------------------------------
-# Paper: Wu, H., Xu, F., Chen, C., Hua, X. S., Luo, X., Wang, H. (2024)
-#        PastNet: Introducing physical inductive biases for spatio-temporal video prediction
-#        https://dl.acm.org/doi/pdf/10.1145/3664647.3681489
-# Source implementation: https://github.com/easylearningscores/pastnet
-# -----------------------------------------------------------------------------
-
 def stride_generator(N, reverse=False):
     strides = [1, 2]*10
     if reverse:
@@ -276,6 +269,13 @@ class DynamicPropagation(nn.Module):
 
         output_state = hidden_embed.reshape(B, T, C, H, W)
         return output_state
+
+# -----------------------------------------------------------------------------
+# Paper: H. Wu, F. Xu, C. Chen, X.-S. Hua, X. Luo, and H. Wang (2024)
+#        PastNet: Introducing physical inductive biases for spatio-temporal video prediction
+#        https://dl.acm.org/doi/pdf/10.1145/3664647.3681489
+# Source implementation: https://github.com/easylearningscores/pastnet
+# -----------------------------------------------------------------------------
 
 class PastNet_model(nn.Module):
     def __init__(self, 
