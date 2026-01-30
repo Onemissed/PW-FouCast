@@ -15,7 +15,7 @@ This repository contains the official implementation of **PW-FouCast**, a framew
 ### 🏗️ Model Architecture
 [//]: # (![Model Architecture]&#40;docs/assets/model_architecture.png&#41;)
 <p align="center">
-  <img src="docs/assets/model_architecture.png" width="1000" alt="Model Architecture">
+  <img src="docs/assets/model_architecture.png" width="800" alt="Model Architecture">
 </p>
 
 [//]: # (*Figure 1: Overview of the PW-FouCast framework.*)
