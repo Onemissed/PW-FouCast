@@ -63,22 +63,7 @@ This repository contains the official implementation of **PW-FouCast**, a novel 
 
 We evaluate our method on two primary datasets: **SEVIR-LR** and **MeteoNet**.
 
-### 1. MeteoNet Dataset
-
-1. **Download:** [MeteoNet Radar Reflectivity](https://meteonet.umr-cnrm.fr/dataset/data/NW/radar/reflectivity_old_product/)
-2. **Process:**
-```bash
-# Convert raw .npz to .npy and downsample
-python ./process_dataset/save_meteonet.py
-
-# Partition into events using sliding windows
-python ./process_dataset/split_meteonet.py
-
-```
-
-
-
-### 2. SEVIR-LR Dataset
+### 1. SEVIR-LR Dataset
 
 1. **Download:** [SEVIR-LR Dataset Link](https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip)
 2. **Process:**
@@ -86,6 +71,19 @@ python ./process_dataset/split_meteonet.py
 python ./process_dataset/process_sevir.py  # .h5 to .npy
 python ./process_dataset/save_sevir.py     # Split into single events
 python ./process_dataset/split_sevir.py    # Sliding window partition
+
+```
+
+### 2. MeteoNet Dataset
+
+1. **Download:** [MeteoNet Radar Reflectivity](https://meteonet.umr-cnrm.fr/dataset/data/NW/radar/reflectivity_old_product/NW_reflectivity_old_product_2018.tar.gz)
+2. **Process:**
+```bash
+# Convert raw .npz to .npy and downsample
+python ./process_dataset/save_meteonet.py
+
+# Partition into events using sliding windows
+python ./process_dataset/split_meteonet.py
 
 ```
 
@@ -108,7 +106,7 @@ python train_baseline_sevir.py --model afno --batchsize 16 --epoch 100 --lr 1e-3
 **MeteoNet:**
 
 ```bash
-python train_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
+python train_baseline_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
 
 ```
 

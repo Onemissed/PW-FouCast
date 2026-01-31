@@ -60,6 +60,7 @@ def DoTrain(args):
     # Load the model configuration
     model_kwargs = load_model_config(args.model.lower(), 'config/sevir')
     model_kwargs['args'] = args
+    print("dataset: ", args.dataset)
     print("model: ", args.model)
     print("lr: ", args.lr)
     print("batch size: ", args.batchsize)
