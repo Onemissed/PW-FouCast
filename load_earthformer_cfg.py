@@ -3,10 +3,10 @@ import yaml
 
 def load_earthformer_config(datasetname: str):
     # Read the configuration parameters in the.yaml file
-    if datasetname is 'meteonet':
+    if datasetname == 'meteonet':
         with open("config/meteonet/cfg_meteonet.yaml", "r") as file:
             config = yaml.safe_load(file)
-    elif datasetname is 'sevir':
+    elif datasetname == 'sevir':
         with open("config/sevir/cfg_sevirlr.yaml", "r") as file:
             config = yaml.safe_load(file)
 

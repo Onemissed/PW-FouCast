@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from generator_meteonet_withpangu import DataGenerator
 from util.preprocess import reshape_patch
 from load_earthformer_cfg import load_earthformer_config
-from evaluation.scores_sevir import Model_eval
+from evaluation.scores_meteonet import Model_eval
 
 def schedule_sampling(eta, itr, args, batchsize):
     zeros = np.zeros((batchsize,
@@ -145,7 +145,7 @@ def DoTrain(args):
 
     # Load the model configuration
     if args.model == 'earthformer':
-        model_kwargs = load_earthformer_config('meteonet')
+        model_kwargs = load_earthformer_config(f'{args.dataset}')
     else:
         config = load_config(args.model.lower())
         model_kwargs = config.get('model', {})
@@ -159,6 +159,7 @@ def DoTrain(args):
     print("model: ", args.model)
     print("lr: ", args.lr)
     print("batch size: ", args.batchsize)
+    print("using gpu: ", args.gpus)
     model = ModelClass(**model_kwargs).to(args.device)
     model = torch.nn.DataParallel(model)
 

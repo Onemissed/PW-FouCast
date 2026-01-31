@@ -156,7 +156,7 @@ def DoTrain(args):
 
     # Load the model configuration
     if args.model == 'earthformer':
-        model_kwargs = load_earthformer_config('sevir')
+        model_kwargs = load_earthformer_config(f'{args.dataset}')
     else:
         config = load_config(args.model.lower())
         model_kwargs = config.get('model', {})
@@ -170,6 +170,7 @@ def DoTrain(args):
     print("model: ", args.model)
     print("lr: ", args.lr)
     print("batch size: ", args.batchsize)
+    print("using gpu: ", args.gpus)
     model = ModelClass(**model_kwargs).to(args.device)
     model = torch.nn.DataParallel(model)
 

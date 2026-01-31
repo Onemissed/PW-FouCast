@@ -64,6 +64,7 @@ def DoTrain(args):
     print("model: ", args.model)
     print("lr: ", args.lr)
     print("batch size: ", args.batchsize)
+    print("using gpu: ", args.gpus)
     model = ModelClass(**model_kwargs).to(args.device)
     model = torch.nn.DataParallel(model)
 

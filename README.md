@@ -94,38 +94,27 @@ python ./process_dataset/split_meteonet.py
 
 ### Training
 
-1. To train PW-FouCast on your chosen dataset, use the following commands:
+Training is performed using dataset-specific entry points. Below are the standard configurations used in our paper.
 
-**SEVIR-LR:**
+### 1. PW-FouCast (Proposed Model)
+ Execute the following for either dataset:
 
-```bash
-python train_pw_foucast_sevir.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1
+| Dataset | Command                                                                             |
+| --- |-------------------------------------------------------------------------------------|
+| **SEVIR-LR** | `python train_pw_foucast_sevir.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1`  |
+| **MeteoNet** | `python train_pw_foucast_meteonet.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1` |
 
-```
 
-**MeteoNet:**
+### 2. Baseline Models
+ To train a baseline (e.g., AFNO), use the generic baseline scripts.
 
-```bash
-python train_pw_foucast_meteonet.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1
+| Dataset | Command |
+| --- | --- |
+| **SEVIR-LR** | `python train_baseline_sevir.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0` |
+| **MeteoNet** | `python train_baseline_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0` |
 
-```
-
-2. To train a baseline model (e.g., AFNO) on specified dataset, use the following commands:
-
-**SEVIR-LR:**
-
-```bash
-python train_baseline_sevir.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
-
-```
-
-**MeteoNet:**
-
-```bash
-python train_baseline_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
-
-```
-
+> [!TIP]
+> You can replace `--model afno` with any baseline supported in the `model/` directory, such as `earthformer` or `nowcastnet`.
 
 ---
 
