@@ -113,8 +113,8 @@ def load_config(model_name, cfg_root='config/sevir'):
 
 def DoTrain(args):
     # Data index
-    TrainSetFilePath = './data_index/meteonet_train_5to20.txt'
-    TestSetFilePath = './data_index/meteonet_test_5to20.txt'
+    TrainSetFilePath = './data_index/meteonet_train_periods.txt'
+    TestSetFilePath = './data_index/meteonet_test_periods.txt'
     train_list = []
     with open(TrainSetFilePath) as file:
         for line in file:
@@ -145,7 +145,7 @@ def DoTrain(args):
 
     # Load the model configuration
     if args.model == 'earthformer':
-        model_kwargs = load_earthformer_config('sevir')
+        model_kwargs = load_earthformer_config('meteonet')
     else:
         config = load_config(args.model.lower())
         model_kwargs = config.get('model', {})

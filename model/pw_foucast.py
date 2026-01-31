@@ -100,7 +100,7 @@ class ConvSC(nn.Module):
 
 class PW_FouCast(nn.Module):
     def __init__(self, args, in_shape, hid_S=16, N_S=4, N_T=4, mlp_ratio=8.,
-                 drop=0.0, drop_path=0.0, spatio_kernel_enc=3, spatio_kernel_dec=3):
+                 drop=0.0, drop_path=0.0, spatio_kernel_enc=3, spatio_kernel_dec=3, mem_slots=240):
         super(PW_FouCast, self).__init__()
         T, C, H, W = in_shape
         H, W = int(H / 2**(N_S/2)), int(W / 2**(N_S/2))  # downsample 1 / 2**(N_S/2)
@@ -113,7 +113,7 @@ class PW_FouCast(nn.Module):
                               input_resolution=(H, W),
                               mlp_ratio=mlp_ratio, drop=drop, drop_path=drop_path)
         self.out_T = args.output_length
-        self.memory = Fourier_memory(C, hid_S, N_S, spatio_kernel_enc, T, T * hid_S, args.output_length * hid_S)
+        self.memory = Fourier_memory(C, hid_S, N_S, spatio_kernel_enc, T, T * hid_S, args.output_length * hid_S, mem_slots=mem_slots)
 
     def forward(self, x_raw, pangu, gt):
         B, T, C, H, W = x_raw.shape
@@ -226,7 +226,7 @@ class MetaBlock(nn.Module):
         self.in_channels = in_channels
         self.out_channels = out_channels
 
-        self.block = AFNOBlock(T, in_channels, out_channels, spatio_kernel=3, embed_dim=out_channels, mlp_ratio=mlp_ratio, drop_rate=drop, drop_path=drop_path, layer_i=layer_i)
+        self.block = AFNOBlock(T, in_channels, embed_dim=out_channels, mlp_ratio=mlp_ratio, drop_rate=drop, drop_path=drop_path, layer_i=layer_i)
 
     def forward(self, x, x_pangu, z_fft):
         z = self.block(x, x_pangu, z_fft)
@@ -505,14 +505,14 @@ class AFNO2D(nn.Module):
 
 
 class Fourier_memory(nn.Module):
-    def __init__(self, C, hid_S, N_S, spatio_kernel_enc, T, C_in, dim, norm_layer=nn.LayerNorm):
+    def __init__(self, C, hid_S, N_S, spatio_kernel_enc, T, C_in, dim, mem_slots=240, norm_layer=nn.LayerNorm):
         super().__init__()
         self.enc = Encoder(C, hid_S, N_S, spatio_kernel_enc, act_inplace=True)
         self.norm1 = norm_layer(dim)
         self.memblock = FFTmem_Block(T=T, C_in=C_in, dim=dim, mlp_ratio=8, drop=0., drop_path=0.1, norm_layer=norm_layer)
 
         self.norm2 = norm_layer(dim)
-        self.phase_memory = nn.Parameter(0.5 * torch.randn(240, dim, 2))
+        self.phase_memory = nn.Parameter(0.5 * torch.randn(mem_slots, dim, 2))
 
     def _to_phasor_from_complex(self, X_complex):
         mag = torch.abs(X_complex)
@@ -662,7 +662,7 @@ class AFNO2D_memory(nn.Module):
         return x
 
 class AFNOBlock(nn.Module):
-    def __init__(self, T, C_in, C_hid, spatio_kernel, embed_dim, mlp_ratio, drop_rate, drop_path, norm_layer=nn.LayerNorm, use_fno=False, use_blocks=False, act_inplace=True, layer_i=0):
+    def __init__(self, T, C_in, embed_dim, mlp_ratio, drop_rate, drop_path, norm_layer=nn.LayerNorm, use_fno=False, use_blocks=False, act_inplace=True, layer_i=0):
         super(AFNOBlock, self).__init__()
 
         self.forward_feature = AFNO_SubBlock(T=T, C_in=C_in, dim=embed_dim, mlp_ratio=mlp_ratio, drop=drop_rate, drop_path=drop_path, norm_layer=norm_layer, use_fno=use_fno, use_blocks=use_blocks, layer_i=layer_i)

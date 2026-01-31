@@ -1,0 +1,11 @@
+model:
+  input_channel: 5
+  hidden_dim: 96
+  output_channel: 20
+  downscaling_factors: [2, 2, 2, 2]
+  layers: [2, 2, 2, 2]
+  heads: [2, 4, 8, 16]
+
+train:
+  batch_size: 16
+  learning_rate: 0.0001

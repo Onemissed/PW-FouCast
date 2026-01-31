@@ -1,10 +1,10 @@
 dataset:
-  dataset_name: "sevir_lr"
+  dataset_name: "meteonet"
   img_height: 128
   img_width: 128
   in_len: 5
-  out_len: 15
-  seq_len: 20
+  out_len: 20
+  seq_len: 25
   plot_stride: 1
   interval_real_time: 10
   sample_mode: "sequent"
@@ -19,7 +19,7 @@ dataset:
   threshold_list: [16, 74, 133, 160, 181, 219]
 layout:
   in_len: 5
-  out_len: 15
+  out_len: 20
   layout: "NTHWC"
 optim:
   total_batch_size: 32
@@ -58,7 +58,7 @@ vis:
   plot_stride: 2
 model:
   input_shape: [5, 128, 128, 1]
-  target_shape: [15, 128, 128, 1]
+  target_shape: [20, 128, 128, 1]
   base_units: 64
   block_units: null
   scale_alpha: 1.0

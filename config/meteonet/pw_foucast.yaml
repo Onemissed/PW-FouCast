@@ -8,3 +8,4 @@ model:
   spatio_kernel_dec: 3
   drop: 0.
   drop_path: 0.1
+  mem_slots: 160

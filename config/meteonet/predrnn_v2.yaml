@@ -1,0 +1,3 @@
+model:
+  num_layers: 4
+  num_hidden: [128, 128, 128, 128]

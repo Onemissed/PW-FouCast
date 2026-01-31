@@ -214,8 +214,8 @@ class Model_eval(object):
                     elif self.args.model == 'mm_rnn':
                         pred = model(ims_convlstm, ims_pangu, real_input_flag_mm)
 
-                    pred *= 255
-                    pred.clamp_(min=0, max=255)
+                    pred *= 80
+                    pred.clamp_(min=0, max=80)
 
                     if self.args.model in ['predrnn_v2', 'mm_rnn']:
                         pred = reshape_patch_back(pred.cpu().numpy(), self.args.patch_size)
@@ -241,11 +241,11 @@ class Model_eval(object):
                             target_frame = target[b, f, :, :]
 
                             # Compute SSIM for the single frame pair and add to the total
-                            ssim_value = ssim(output_frame, target_frame, data_range=255.0)
+                            ssim_value = ssim(output_frame, target_frame, data_range=80.0)
                             ssim_temp += ssim_value
 
                             mse_temp = np.mean((output_frame - target_frame) ** 2)
-                            psnr_value = 20 * np.log10(255 / np.sqrt(mse_temp + epsilon))
+                            psnr_value = 20 * np.log10(80 / np.sqrt(mse_temp + epsilon))
                             psnr_temp += psnr_value
 
                     ssim_mean = ssim_temp / (B * T)
