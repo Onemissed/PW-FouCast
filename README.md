@@ -94,7 +94,23 @@ python ./process_dataset/split_meteonet.py
 
 ### Training
 
-To train a model (e.g., AFNO) on your chosen dataset, use the following commands:
+1. To train PW-FouCast on your chosen dataset, use the following commands:
+
+**SEVIR-LR:**
+
+```bash
+python train_pw_foucast_sevir.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1
+
+```
+
+**MeteoNet:**
+
+```bash
+python train_pw_foucast_meteonet.py --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0,1
+
+```
+
+2. To train a baseline model (e.g., AFNO) on specified dataset, use the following commands:
 
 **SEVIR-LR:**
 
@@ -109,6 +125,7 @@ python train_baseline_sevir.py --model afno --batchsize 16 --epoch 100 --lr 1e-3
 python train_baseline_meteonet.py --model afno --batchsize 16 --epoch 100 --lr 1e-3 --gpus 0
 
 ```
+
 
 ---
 

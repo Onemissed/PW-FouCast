@@ -58,7 +58,7 @@ def DoTrain(args):
                          f'Available models: {list(MODEL_REGISTRY)}')
 
     # Load the model configuration
-    model_kwargs = load_model_config(args.model.lower(), 'config/sevir')
+    model_kwargs = load_model_config(args.model.lower(), f'config/{args.dataset}')
     model_kwargs['args'] = args
     print("dataset: ", args.dataset)
     print("model: ", args.model)
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     # Training hyperparameters
     parser.add_argument('--device', type=str, default='cuda', choices=['cpu', 'cuda'], help='use cpu/gpu')
-    parser.add_argument('--gpus', type=str, default='0', help='gpu device ID')
+    parser.add_argument('--gpus', type=str, default='0,1', help='gpu device ID')
     parser.add_argument('--epoch', type=int, default=100, help='')
     parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=16, help='batch size')

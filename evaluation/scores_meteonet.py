@@ -173,7 +173,7 @@ class Model_eval(object):
                                  self.args.patch_size ** 2 * self.args.img_channel))
                             real_input_flag_mm = real_input_flag_mm.to(self.args.device)
 
-                    target = ims[:, :, :, 5:]
+                    target = ims[:, 5:, :, :]
                     ims = torch.FloatTensor(ims).to(self.args.device)
 
                     ims /= 80

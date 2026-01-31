@@ -47,7 +47,7 @@ def DoTrain(args):
                          f'Available models: {list(MODEL_REGISTRY)}')
 
     # Load the model configuration
-    model_kwargs = load_model_config(args.model.lower(), 'config/sevir')
+    model_kwargs = load_model_config(args.model.lower(), f'config/{args.dataset}')
     model_kwargs['args'] = args
     print("dataset: ", args.dataset)
     print("model: ", args.model)
@@ -178,14 +178,14 @@ def DoTrain(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='pw_foucast', help='The model used for training')
-    parser.add_argument('--dataset', type=str, default='sevir', help='dataset name')
+    parser.add_argument('--dataset', type=str, default='meteonet', help='dataset name')
     parser.add_argument('--patch_size', type=int, default=4, help='')
     parser.add_argument('--img_width', type=int, default=128, help='image size')
     parser.add_argument('--img_channel', type=int, default=1, help='')
 
     # Training hyperparameters
     parser.add_argument('--device', type=str, default='cuda', choices=['cpu', 'cuda'], help='use cpu/gpu')
-    parser.add_argument('--gpus', type=str, default='0', help='gpu device ID')
+    parser.add_argument('--gpus', type=str, default='0,1', help='gpu device ID')
     parser.add_argument('--epoch', type=int, default=100, help='')
     parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=16, help='batch size')
