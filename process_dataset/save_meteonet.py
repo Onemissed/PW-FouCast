@@ -6,7 +6,6 @@ from tqdm import tqdm
 
 # Used to convert raw radar files into separate npy files and downsampling these data
 if __name__ == "__main__":
-    # The directory containing MeteoNet raw data can be set to NW_reflectivity_old_product_2016 or 2017 or 2018
     examples_root = '/path/to/meteonet/data/nw/reflectivity_old_product/NW_reflectivity_old_product_2018/'
     out_root = '/path/to/meteonet/data/nw/reflectivity_npy/'
 

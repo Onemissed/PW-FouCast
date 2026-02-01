@@ -5,10 +5,10 @@ from datetime import datetime
 from tqdm import tqdm
 
 # Load one array data
-data = np.load('/your/path/to/sevir_lr/data/vil_numpy/2019/SEVIR_VIL_STORMEVENTS_2019_0701_1231.npy')
+data = np.load('/path/to/sevir_lr/data/vil_numpy/2019/SEVIR_VIL_STORMEVENTS_2019_0701_1231.npy')
 # Choose to extract precipitation events in random or storm
-output_folder = '/your/path/to/sevir_lr/data/vil_single/random/'  # Folder to save individual sequences
-# output_folder = '/your/path/to/sevir_lr/data/vil_single/storm/'
+output_folder = '/path/to/sevir_lr/data/vil_single/random/'  # Folder to save individual sequences
+# output_folder = '/path/to/sevir_lr/data/vil_single/storm/'
 
 # Ensure output directory exists
 os.makedirs(output_folder, exist_ok=True)

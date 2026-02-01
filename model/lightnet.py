@@ -1,12 +1,6 @@
 import torch
 import torch.nn as nn
 
-# -----------------------------------------------------------------------------
-# Paper: Y.-a. Geng, Q. Li, T. Lin, L. Jiang, L. Xu, D. Zheng, W. Yao, W. Lyu, and Y. Zhang (2019)
-#        Lightnet: A dual spatiotemporal encoder network model for lightning prediction
-#        https://dl.acm.org/doi/abs/10.1145/3292500.3330717
-# -----------------------------------------------------------------------------
-
 class Encoder_wrf_model(nn.Module):
     def __init__(self, tra_frames, channels, args):
         super(Encoder_wrf_model, self).__init__()
@@ -158,6 +152,12 @@ class ConvLSTM2D(nn.Module):
         h_next = o_t * torch.tanh(c_next)
         return h_next, c_next
 
+
+# -----------------------------------------------------------------------------
+# Paper: Y.-a. Geng, Q. Li, T. Lin, L. Jiang, L. Xu, D. Zheng, W. Yao, W. Lyu, and Y. Zhang (2019)
+#        Lightnet: A dual spatiotemporal encoder network model for lightning prediction
+#        https://dl.acm.org/doi/abs/10.1145/3292500.3330717
+# -----------------------------------------------------------------------------
 
 class LightNet_Model(nn.Module):
     def __init__(self, args, obs_tra_frames, obs_channels, wrf_tra_frames, wrf_channels):

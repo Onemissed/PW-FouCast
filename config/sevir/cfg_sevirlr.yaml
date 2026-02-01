@@ -2,9 +2,9 @@ dataset:
   dataset_name: "sevir_lr"
   img_height: 128
   img_width: 128
-  in_len: 7
-  out_len: 6
-  seq_len: 13
+  in_len: 5
+  out_len: 20
+  seq_len: 25
   plot_stride: 1
   interval_real_time: 10
   sample_mode: "sequent"
@@ -18,8 +18,8 @@ dataset:
   metrics_list: ['csi', 'pod', 'sucr', 'bias']
   threshold_list: [16, 74, 133, 160, 181, 219]
 layout:
-  in_len: 7
-  out_len: 6
+  in_len: 5
+  out_len: 20
   layout: "NTHWC"
 optim:
   total_batch_size: 32
@@ -57,8 +57,8 @@ vis:
   eval_example_only: false
   plot_stride: 2
 model:
-  input_shape: [7, 128, 128, 1]
-  target_shape: [6, 128, 128, 1]
+  input_shape: [5, 128, 128, 1]
+  target_shape: [20, 128, 128, 1]
   base_units: 64
   block_units: null
   scale_alpha: 1.0
@@ -73,13 +73,13 @@ model:
   downsample_type: "patch_merge"
   upsample_type: "upsample"
 
-  num_global_vectors: 0
+  num_global_vectors: 2
   use_dec_self_global: false
   dec_self_update_global: true
   use_dec_cross_global: false
   use_global_vector_ffn: false
-  use_global_self_attn: false
-  separate_global_qkv: false
+  use_global_self_attn: true
+  separate_global_qkv: true
   global_dim_ratio: 1
 
   self_pattern: "axial"
