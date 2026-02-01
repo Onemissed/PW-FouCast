@@ -49,10 +49,11 @@ This repository contains the official implementation of **PW-FouCast**, a novel 
 ```text
 ├── config/             # YAML configurations (MeteoNet & SEVIR)
 ├── data_index/         # Dataset indexing and manifest files
-├── evaluation/         # Metrics (CSI, HSS, MSE) and evaluation scripts
+├── evaluation/         # Metrics (CSI, HSS, MSE, SSIM) and evaluation scripts
 ├── model/              # Implementation of PW-FouCast and baselines
 ├── module/             # Shared building blocks (convolutions, attention, etc.)
-├── util/               # Logging, visualization, and utility functions
+├── process_dataset/    # Convert dataset file into samples
+├── util/               # Utility functions
 └── README.md           # Project documentation
 
 ```
