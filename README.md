@@ -69,7 +69,7 @@ We evaluate our method on two primary datasets: **SEVIR-LR** and **MeteoNet**.
 1. **Download:** [SEVIR-LR Dataset Link](https://deep-earth.s3.amazonaws.com/datasets/sevir_lr.zip)
 2. **Process:**
 ```bash
-# .h5 to .npy
+# Convert .h5 to .npy
 python ./process_dataset/process_sevir.py
 
 # Split into single events
