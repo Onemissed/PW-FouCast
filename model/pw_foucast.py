@@ -285,7 +285,6 @@ class Mlp(nn.Module):
         return x
 
 
-# 重点：ANFO中使用的模块
 class AFNO_SubBlock(nn.Module):
     def __init__(self, T, C_in, dim, mlp_ratio=4., drop=0., drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm, use_fno=False, use_blocks=False, layer_i=0):
         super().__init__()
@@ -303,7 +302,6 @@ class AFNO_SubBlock(nn.Module):
         self.hidden_dim = dim
         self.proj = nn.Linear(C_in, dim)
 
-    # ANFO模块的前向传播过程
     def forward(self, x, x_pangu, match_phase):
         residual = x
 
@@ -566,6 +564,7 @@ class Fourier_memory(nn.Module):
 
         return match_phase
 
+
 class FFTmem_Block(nn.Module):
     def __init__(self, T, C_in, dim, mlp_ratio=4., drop=0., drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm):
         super().__init__()
@@ -660,6 +659,7 @@ class AFNO2D_memory(nn.Module):
         x = x.type(dtype)
 
         return x
+
 
 class AFNOBlock(nn.Module):
     def __init__(self, T, C_in, embed_dim, mlp_ratio, drop_rate, drop_path, norm_layer=nn.LayerNorm, use_fno=False, use_blocks=False, act_inplace=True, layer_i=0):
