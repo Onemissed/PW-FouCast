@@ -551,15 +551,11 @@ class Fourier_memory(nn.Module):
         mem_norm = mem / (torch.linalg.norm(mem, dim=(1, 2), keepdim=True) + 1e-8)  # [M,dim,2]
 
         # compute similarity = sum_over_dim( ph_src * mem ) where product = real*real + imag*imag
-        # ph_src [..., dim, 2], mem [M, dim, 2] -> we want [..., M]
-        # einsum succinctly:
-        # sim_raw[b,h,w,m] = sum_d ( ph_src[b,h,w,d,0]*mem[m,d,0] + ph_src[...,d,1]*mem[m,d,1] )
         sim_raw = torch.einsum('bhwdc,mdc->bhwm', ph_src, mem_norm)  # shape [B,H_,W_,M]
 
         soft_sim = F.softmax(sim_raw, dim=-1)  # weights over memory slots
 
         # compute matched phasor via weighted sum of mem_norm (broadcast)
-        # result: [B,H,W,dim,2] = sum_m soft_sim[...,m] * mem_norm[m,dim,2]
         match_phase = torch.einsum('bhwm,mdc->bhwdc', soft_sim, mem_norm)  # [B,H,W,dim,2]
 
         return match_phase
