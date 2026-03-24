@@ -1,9 +1,12 @@
 # Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?logo=PyTorch&logoColor=white)](https://pytorch.org/)
+[![arXiv](https://img.shields.io/badge/arXiv-2603.21768-b31b1b.svg)](https://arxiv.org/abs/2603.21768)
+[![Conference](https://img.shields.io/badge/Accepted%20to-IJCNN%202026-orange.svg)](https://attend.ieee.org/wcci-2026/)
 
 This repository contains the official implementation of **PW-FouCast**, a novel frequency-domain fusion framework designed to extend precipitation nowcasting horizons by integrating weather foundation model priors with radar observations.
+
+[//]: # (> **Note:** This paper has been accepted by the **International Joint Conference on Neural Networks &#40;IJCNN&#41; 2026**.)
 
 ---
 
@@ -167,5 +170,18 @@ Training is performed using dataset-specific entry points. Below are the standar
 |  | CM-STjointNet | 0.3285 | 0.1553 | 0.0542 | 0.1793 | 0.4832 | 0.2656 | 0.1022 | 0.2837 | 8.8143 | 0.9429 | 34.3279 | 0.7974 |
 |  | **Ours** | **0.3744** | **0.2206** | **0.1022** | **0.2324** | **0.5353** | **0.3579** | **0.1848** | **0.3593** | **7.3844** | **0.6603** | **35.8116** | **0.8740** |
 
+
+## ✍️ Citation
+
+If you find this work or code useful for your research, please consider citing:
+
+```bibtex
+@article{pwfoucast2026,
+  title={Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors},
+  author={Yuze Qin, Qingyong Li, Zhiqing Guo, Wen Wang, Yan Liu, Yangli-ao Geng},
+  journal={arXiv preprint arXiv:2603.21768},
+  year={2026}
+}
+```
 <br>
 <br>
