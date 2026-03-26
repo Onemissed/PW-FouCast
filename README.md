@@ -1,8 +1,9 @@
 # Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors
 
-[![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?logo=PyTorch&logoColor=white)](https://pytorch.org/)
+[//]: # ([![PyTorch]&#40;https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?logo=PyTorch&logoColor=white&#41;]&#40;https://pytorch.org/&#41;)
 [![arXiv](https://img.shields.io/badge/arXiv-2603.21768-b31b1b.svg)](https://arxiv.org/abs/2603.21768)
 [![Conference](https://img.shields.io/badge/Accepted%20to-IJCNN%202026-orange.svg)](https://attend.ieee.org/wcci-2026/)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-FFD21E)](https://huggingface.co/Onemiss/PW-FouCast)
 
 This repository contains the official implementation of **PW-FouCast**, a novel frequency-domain fusion framework designed to extend precipitation nowcasting horizons by integrating weather foundation model priors with radar observations.
 
@@ -176,7 +177,7 @@ Training is performed using dataset-specific entry points. Below are the standar
 If you find this work or code useful for your research, please consider citing:
 
 ```bibtex
-@article{pwfoucast2026,
+@article{qin2026extending,
   title={Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors},
   author={Yuze Qin, Qingyong Li, Zhiqing Guo, Wen Wang, Yan Liu, Yangli-ao Geng},
   journal={arXiv preprint arXiv:2603.21768},
