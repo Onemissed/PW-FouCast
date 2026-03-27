@@ -90,7 +90,6 @@ python ./process_dataset/save_meteonet.py
 
 # Partition into events using sliding windows
 python ./process_dataset/split_meteonet.py
-
 ```
 
 ### 3. Meteorological Variables
@@ -100,7 +99,6 @@ python ./process_dataset/split_meteonet.py
 ```bash
 # Obtain meteorological variables via pre-trained Pangu-Weather model inference
 python ./process_dataset/inference_pangu_gpu.py
-
 ```
 
 ---
@@ -130,6 +128,15 @@ Training is performed using dataset-specific entry points. Below are the standar
 
 > [!TIP]
 > You can replace `--model afno` with any baseline supported in the `model/` directory, such as `earthformer` or `nowcastnet`.
+
+### Inference
+
+We provide pre-trained model weights hosted on **Hugging Face**. The inference scripts will automatically load these weights to perform evaluation on the test sets.
+
+| Dataset | Command |
+| :--- | :--- |
+| **SEVIR-LR** | `python inference_sevir.py --gpus 0` |
+| **MeteoNet** | `python inference_meteonet.py --gpus 0` |
 
 ---
 
