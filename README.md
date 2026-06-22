@@ -96,12 +96,8 @@ python ./process_dataset/split_meteonet.py
 
 ### 3. Meteorological Variables
 
-1. **Download Pre-trained Model:** [pangu_weather_1.onnx](https://drive.google.com/file/d/1fg5jkiN_5dHzKb-5H9Aw4MOmfILmeY-S/view)
-2. **Process:**
-```bash
-# Obtain meteorological variables via pre-trained Pangu-Weather model inference
-python ./process_dataset/inference_pangu_gpu.py
-```
+**Download:** [Pangu-Weather Forecasts](https://huggingface.co/datasets/Onemiss/Pangu-Weather_Forecasts/tree/main)
+
 
 ---
 
