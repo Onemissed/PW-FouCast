@@ -4,6 +4,8 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2603.21768-b31b1b.svg)](https://arxiv.org/abs/2603.21768)
 [![Conference](https://img.shields.io/badge/Accepted%20to-IJCNN%202026-orange.svg)](https://attend.ieee.org/wcci-2026/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-FFD21E)](https://huggingface.co/Onemiss/PW-FouCast)
+[![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-FFD21E)](https://huggingface.co/datasets/Onemiss/Pangu-Weather_Forecasts)
+
 
 This repository contains the official implementation of **PW-FouCast**, a novel frequency-domain fusion framework designed to extend precipitation nowcasting horizons by integrating weather foundation model priors with radar observations.
 
