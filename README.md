@@ -182,10 +182,12 @@ We provide pre-trained model weights hosted on **Hugging Face**. The inference s
 If you find this work or code useful for your research, please consider citing:
 
 ```bibtex
-@article{qin2026extending,
+@inproceedings{qin2026extending,
   title={Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors},
-  author={Yuze Qin, Qingyong Li, Zhiqing Guo, Wen Wang, Yan Liu, Yangli-ao Geng},
-  journal={arXiv preprint arXiv:2603.21768},
-  year={2026}
+  author={Qin, Yuze and Li, Qingyong and Guo, Zhiqing and Wang, Wen and Liu, Yan and Geng, Yangliao},
+  booktitle={2026 International Joint Conference on Neural Networks (IJCNN)},
+  pages={1-8},
+  year={2026},
+  doi={10.1109/IJCNN69854.2026.11729700}
 }
 ```
